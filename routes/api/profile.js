@@ -41,14 +41,21 @@ router.get('/test', (req, res, next) => {
  * @access Private
  */
 router.get('/', requireAuth, (req, res, next) => {
-    Profile.findOne({ user: req.user.id })
-        .then(profile => {
-
+    Profile.findOne({
+            user: req.user.id
         })
+        .populate('user', ['name', 'avatar'])
+        .then((profile_res) => {
+            if (!profile_res) {
+                // errors.no_profile = "There is no profile for this user"
+                res.status(404).json({ no_profile: "There is no profile for this user" })
+            }
+            res.status(200).json(profile_res);
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(404).json(error);
+        });
 })
-
-
-
-
 
 module.exports = router;
