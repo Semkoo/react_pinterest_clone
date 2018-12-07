@@ -25,8 +25,7 @@ const app = express();
 //Connect to MongoDB
 mongoose
   .connect(
-    config.mongoURI,
-    {
+    config.mongoURI, {
       useNewUrlParser: true
     }
   )
@@ -100,6 +99,13 @@ app.get("/logout", function(req, res) {
 //Use API Routes
 app.use("/api", router);
 
-const port = process.env.PORT || 5000;
+let port = process.env.PORT || 5000;
+
+//If C9 ide
+if (port == 8080) {
+  //Set the port to 8081
+  port = 8081
+}
+
 const host = process.env.HOST || process.env.IP || "localhost";
 app.listen(port, () => console.log(`Server running at http://${host}:${port}`));
