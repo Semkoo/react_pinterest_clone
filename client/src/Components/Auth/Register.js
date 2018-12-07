@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import GitHubLogin from './GitHubLogin'
+
 class Register extends Component {
     render() {
         return (
@@ -26,7 +28,7 @@ class Register extends Component {
                     <input type="submit" className="btn btn-info btn-block mt-4" />
                   </form>
                   <hr/>
-                 <button type="button" className="btn btn-secondary btn-social btn-github btn-block mt-4"> <i class="fab fa-github"> </i> Sign in with GitHub</button>
+                  <GitHubLogin/>
                 </div>
               </div>
             </div>
