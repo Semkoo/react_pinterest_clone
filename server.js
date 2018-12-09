@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const config = require("./config/config");
+const CORS = require("cors");
 
 //Middleware Protection
 const passport = require("passport");
@@ -25,7 +26,8 @@ const app = express();
 //Connect to MongoDB
 mongoose
   .connect(
-    config.mongoURI, {
+    config.mongoURI,
+    {
       useNewUrlParser: true
     }
   )
@@ -58,44 +60,23 @@ app.use(
 );
 // app.use(passport.initialize());
 // app.use(passport.session());
-//
+
 // CORS Support
-// app.use((req, res, next) => {
-//   // Website you wish to allow to connect
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-
-//   // Request methods you wish to allow
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-
-//   // Request headers you wish to allow
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, X-Requested-With, x-request-metadata"
-//   );
-
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader("Access-Control-Allow-Credentials", true);
-//   next();
+// app.use(CORS);
+// //Basic route test
+// app.get("/", (req, res, next) => {
+//   var html =
+//     "<ul>\
+//                 <li><a href='/api/user/auth/github'>GitHub</a></li>\
+//                 <li><a href='/api/user/logout'>logout</a></li>\
+//               </ul>";
+//   res.send(html);
 // });
-
-//Basic route test
-app.get("/", (req, res, next) => {
-  var html =
-    "<ul>\
-                <li><a href='/api/user/auth/github'>GitHub</a></li>\
-                <li><a href='/api/user/logout'>logout</a></li>\
-              </ul>";
-  res.send(html);
-});
-app.get("/logout", function(req, res) {
-  console.log("logging out");
-  req.logout();
-  res.redirect("/");
-});
+// app.get("/logout", function(req, res) {
+//   console.log("logging out");
+//   req.logout();
+//   res.redirect("/");
+// });
 //Use API Routes
 app.use("/api", router);
 
@@ -104,7 +85,7 @@ let port = process.env.PORT || 5000;
 //If C9 ide
 if (port == 8080) {
   //Set the port to 8081
-  port = 8081
+  port = 8081;
 }
 
 const host = process.env.HOST || process.env.IP || "localhost";

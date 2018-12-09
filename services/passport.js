@@ -76,7 +76,7 @@ module.exports = passport => {
         )
           .then(user => {
             if (user) {
-            //   console.log(user);
+              //   console.log(user);
               return done(null, user);
             }
             return done(null, false);

@@ -36,47 +36,52 @@ router.get("/test", (req, res, next) => {
  **/
 router.post("/register", (req, res, next) => {
   //Validation required
-
+  //TODO:
   //Check if user already exists
-  User.findOne({ email: req.body.email }).then(user => {
-    if (user) {
-      return res.status(400).json({ email: "Email already in use" });
-    } else {
-      const avatar = gravatar.url(req.body.email, {
-        s: "200", //Size
-        r: "pg", //Rating
-        d: "mm" //Default
-      });
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        avatar: avatar,
-        password: req.body.password
-      });
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-          throw err;
-        }
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      if (user) {
+        return res.status(400).json({ email: "Email already in use" });
+      } else {
+        const avatar = gravatar.url(req.body.email, {
+          s: "200", //Size
+          r: "pg", //Rating
+          d: "mm" //Default
+        });
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          avatar: avatar,
+          password: req.body.password
+        });
+        bcrypt.genSalt(10, (err, salt) => {
           if (err) {
             throw err;
-          } else {
-            newUser.password = hash;
-            //Mongose save method
-            newUser
-              .save()
-              .then(user => {
-                res.status(200).json(user);
-              })
-              .catch(err => {
-                res.status(500);
-                console.error(err);
-              });
           }
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) {
+              throw err;
+            } else {
+              newUser.password = hash;
+              //Mongose save method
+              newUser
+                .save()
+                .then(user => {
+                  res.status(200).json(user);
+                })
+                .catch(err => {
+                  res.status(500);
+                  console.error(err);
+                });
+            }
+          });
         });
-      });
-    }
-  });
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(400).json(err);
+    });
 });
 
 /**
@@ -180,11 +185,50 @@ router.get(
       (err, token) => {
         if (err) throw err;
         // res.send("Hello");
-        const result = {
-          sucess: true,
-          token: "Bearer " + token
-        };
-        res.send(result);
+        // const result = {
+        //   sucess: true,
+        //   token: "Bearer " + token
+        // };
+        // res.status(200).json({
+        //   sucess: true,
+        //   token: "Bearer " + token
+        // });
+        // res.send(result);
+        res.redirect(`http://localhost:3000/SocialAccess/${token}`);
+        // const htmlWithEmbeddedJWT = `
+        //   <html>
+        //     <script>
+        //       // Save JWT to localStorage
+        //       window.localStorage.setItem('jwtToken', '${token}');
+        //       // Redirect browser to root of application
+        //       window.location.href = "/";;
+        //     </script>
+        //   </html>`;
+        // const htmlWithEmbeddedJWT = `
+        // <!doctype html>
+        // <html lang="en">
+        // <head>
+        //   <title>Login successful</title>
+        // </head>
+        // <body>
+        //   <h1>Success</h1>
+        //   <p>You are authenticated...</p>
+        // </body>
+        // <script>
+        //   document.body.onload = function() {
+        //     // var injectedUser =JSON.stringify(${token})  ;
+        //     window.opener.postMessage(
+        //       {
+        //         token: "Bearer ${token}",
+        //         status: 'success'
+        //       },
+        //       window.opener.location
+        //     );
+        //   };
+        // </script>
+        // </html>`;
+
+        // res.send(htmlWithEmbeddedJWT);
       }
     );
   }
@@ -199,8 +243,16 @@ router.get("/current", requireAuth, (req, res, next) => {
   res.status(200).json({
     id: req.user.id,
     name: req.user.name,
-    email: req.user.name
+    email: req.user.email
   });
+});
+/**
+ * @route GET api/user/auth
+ * @desc Return current user
+ * @access Private
+ */
+router.get("/authSocial", requireAuth, (req, res, next) => {
+  res.status(200).json({ sucess: true });
 });
 
 module.exports = router;
