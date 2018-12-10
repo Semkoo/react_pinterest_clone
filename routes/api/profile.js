@@ -33,49 +33,28 @@ router.get("/test", (req, res, next) => {
  * @access Public
  */
 router.get("/posts", (req, res, next) => {
-  // { "posts.display": { $all: ["public"] } }
-  // 'Friends.id': req.body.id
-  User.find()
-    .pretty()
-    // .selectAll({ posts: { { display: "public" } } })
-    .then(data => {
-      // console.log(data);
-      let posts = [];
-      // let post = [];
-
-      var post = data.map((value, index) => {
-        if (Object.keys(value.posts).length > 0) {
-          return value.posts;
-        }
-      });
-      console.log(post);
-      for (var i = 0; i < post.length; i++) {
-        // console.log(post[i].length);
-        for (var j = 0; j < post[i].length; j++) {
-          posts.push(post[i][j]);
+  User.find({ "posts.display": 'public' }, { "posts": 1 })
+  .then(results => {
+    let articles = [];
+    for (var key in results) {
+      if (results[key].posts) {
+        for (var id in results[key].posts) {
+          if (results[key].posts[id].display == 'public') {
+            articles.push(results[key].posts[id]);
+          }
         }
       }
-
-      // for (var key in data) {
-      //   if (data[key].posts.length > 0) {
-      //     // console.log(data[key].posts);
-      //   }
-      //   // posts.push(data[key].posts);
-      // }
-      // for (var key in posts) {
-      //   post.push(posts[key]);
-      //   // posts.push(data[key].posts);
-      // }
-      // console.log(posts);
-      if (!posts) {
-        res.status(404).json({ no_posts: "there are no posts" });
-      }
-      res.status(200).json(post);
-    })
-    .catch(err => {
-      console.error(err);
+    }
+    console.log(articles[0].display);
+    if (!articles) {
       res.status(404).json({ no_posts: "there are no posts" });
-    });
+    }
+    res.status(200).json(articles);
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(404).json({ no_posts: "there are no posts" });
+  });
 });
 
 /**
