@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const config = require("./config/config");
-const CORS = require("cors");
 
 //Middleware Protection
 const passport = require("passport");
@@ -17,7 +16,6 @@ require("./services/passport")(passport);
 
 //Routes
 const router = require("./routes/routes");
-
 //Create the app on express
 const app = express();
 
@@ -26,8 +24,7 @@ const app = express();
 //Connect to MongoDB
 mongoose
   .connect(
-    config.mongoURI,
-    {
+    config.mongoURI, {
       useNewUrlParser: true
     }
   )

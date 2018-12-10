@@ -33,28 +33,28 @@ router.get("/test", (req, res, next) => {
  * @access Public
  */
 router.get("/posts", (req, res, next) => {
-  User.find({ "posts.display": 'public' }, { "posts": 1 })
-  .then(results => {
-    let articles = [];
-    for (var key in results) {
-      if (results[key].posts) {
-        for (var id in results[key].posts) {
-          if (results[key].posts[id].display == 'public') {
-            articles.push(results[key].posts[id]);
+  User.find({ "posts.display": "public" }, { posts: 1 })
+    .then(results => {
+      let articles = [];
+      for (var key in results) {
+        if (results[key].posts) {
+          for (var id in results[key].posts) {
+            if (results[key].posts[id].display == "public") {
+              articles.push(results[key].posts[id]);
+            }
           }
         }
       }
-    }
-    console.log(articles[0].display);
-    if (!articles) {
+      console.log(articles[0].display);
+      if (!articles) {
+        res.status(404).json({ no_posts: "there are no posts" });
+      }
+      res.status(200).json(articles);
+    })
+    .catch(err => {
+      console.error(err);
       res.status(404).json({ no_posts: "there are no posts" });
-    }
-    res.status(200).json(articles);
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(404).json({ no_posts: "there are no posts" });
-  });
+    });
 });
 
 /**
