@@ -1,12 +1,13 @@
 import {
   GET_PROFILE,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE,
+  GET_ARTICLES
 } from "../Actions/types";
 
 const initialState = {
   profile: null,
-  profiles: null,
+  pinterest: null,
   loading: false
 };
 
@@ -16,6 +17,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case GET_ARTICLES:
+      console.log(action.payload);
+      return {
+        ...state,
+        pinterest: action.payload,
+        loading: false
       };
     case GET_PROFILE:
       // console.log(action.payload);

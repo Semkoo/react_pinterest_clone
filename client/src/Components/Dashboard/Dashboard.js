@@ -5,6 +5,8 @@ import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../Actions/profileActions";
 
+import Articles from "./Articles";
+
 import Spinner from "../Common/Spinner";
 
 class Dashboard extends Component {
@@ -17,30 +19,20 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     // console.log(this.props.profile);
     const { profile, loading } = this.props.profile;
-    // console.log(profile);
+    console.log(profile);
     let dashboardContent;
 
     if (profile === null || loading === true) {
       dashboardContent = <Spinner />;
     } else {
-      // dashboardContent = <h1>Hello</h1>;
-      //Check if logged in user has any posts posted
-      // if (Object.keys(profile.posts).length > 0) {
-      //   //Add New Posts
-      //   dashboardContent = <h4>Display Posts</h4>;
-      // } else {
-      //User is logged in but has no posts
       dashboardContent = (
         <div>
           <p className="lead text-muted"> Welcome {user.name}</p>
-          <p>You have not yet posted any posts, do add some if you'd like</p>
-          <Link to="/create-post" className="btn btn-lg btn-info">
-            {" "}
-            Create A Post
-          </Link>
+          {/* <!-- Dashboard Actions --> */}
+          <hr />
+          <Articles Posts={profile.posts} />
         </div>
       );
-      // }
     }
 
     return (

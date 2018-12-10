@@ -36,7 +36,7 @@ const UserSchema = new Schema({
     {
       display: {
         type: String,
-        default: "public"
+        require: true
       },
       handle: {
         type: String,

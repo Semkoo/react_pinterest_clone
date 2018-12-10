@@ -33,21 +33,44 @@ router.get("/test", (req, res, next) => {
  * @access Public
  */
 router.get("/posts", (req, res, next) => {
+  // { "posts.display": { $all: ["public"] } }
+  // 'Friends.id': req.body.id
   User.find()
+    .pretty()
+    // .selectAll({ posts: { { display: "public" } } })
     .then(data => {
+      // console.log(data);
       let posts = [];
-      for (var key in data) {
-        posts.push(
-          data[key].name,
-          data[key].avatar,
-          data[key]._id,
-          data[key].posts
-        );
+      // let post = [];
+
+      var post = data.map((value, index) => {
+        if (Object.keys(value.posts).length > 0) {
+          return value.posts;
+        }
+      });
+      console.log(post);
+      for (var i = 0; i < post.length; i++) {
+        // console.log(post[i].length);
+        for (var j = 0; j < post[i].length; j++) {
+          posts.push(post[i][j]);
+        }
       }
+
+      // for (var key in data) {
+      //   if (data[key].posts.length > 0) {
+      //     // console.log(data[key].posts);
+      //   }
+      //   // posts.push(data[key].posts);
+      // }
+      // for (var key in posts) {
+      //   post.push(posts[key]);
+      //   // posts.push(data[key].posts);
+      // }
+      // console.log(posts);
       if (!posts) {
         res.status(404).json({ no_posts: "there are no posts" });
       }
-      res.status(200).json(posts);
+      res.status(200).json(post);
     })
     .catch(err => {
       console.error(err);
@@ -61,12 +84,10 @@ router.get("/posts", (req, res, next) => {
  * @access Private
  */
 router.get("/", requireAuth, (req, res, next) => {
-  //   console.log(req.user);
   User.findOne({
     _id: req.user._id
   })
     .then(profile => {
-      console.log(profile);
       if (!profile) {
         // errors.no_profile = "There is no profile for this user"
         res
@@ -94,6 +115,7 @@ router.post("/post", requireAuth, (req, res, next) => {
   //Add the links/title/description
   //TODO: VALIDATION
   postFields.handle = req.body.handle;
+  postFields.display = req.body.display;
   postFields.title = req.body.title;
   postFields.href_link = req.body.href_link;
   postFields.description = req.body.description;

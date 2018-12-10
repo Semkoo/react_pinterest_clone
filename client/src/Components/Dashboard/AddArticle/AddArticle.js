@@ -1,13 +1,17 @@
 import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
 
 import TextFieldGroup from "../../Common/TextFieldGroup";
 import TextAreaFieldGroup from "../../Common/TextAreaFieldGroup";
-import InputGroup from "../../Common/InputGroup";
+// import InputGroup from "../../Common/InputGroup";
 import SelectListGroup from "../../Common/SelectListGroup";
 
-class CreatePost extends Component {
+// Import the action
+import { addArticle } from "../../../Actions/profileActions";
+
+class AddArticle extends Component {
   //State values
   constructor() {
     super();
@@ -20,15 +24,24 @@ class CreatePost extends Component {
       errors: ""
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
-    // const newPost = {
-    //   name: this.state.name,
-    //   email: this.state.email,
-    //   password: this.state.password,
-    //   password2: this.state.password2
-    // };
-    console.log("submit");
+    const addArticle = {
+      display: this.state.display,
+      handle: this.state.handle,
+      title: this.state.title,
+      href_link: this.state.href_link,
+      description: this.state.description
+    };
+    // console.log(addArticle);
+    this.props.addArticle(addArticle, this.props.history);
   };
 
   onChange = e => {
@@ -40,6 +53,7 @@ class CreatePost extends Component {
 
   render() {
     const { errors } = this.state;
+    // console.log(errors);
     //Select Options for post status
     const options = [
       {
@@ -61,7 +75,10 @@ class CreatePost extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center"> Creat your new post</h1>
+              <Link to="/dashboard" className="btn btn-light">
+                Go Back
+              </Link>
+              <h1 className="display-4 text-center">Add a post</h1>
               <p className="lead text-center">Add anything you'd like</p>
               <small className="d-block pb-3">* required</small>
               <hr />
@@ -114,7 +131,7 @@ class CreatePost extends Component {
     );
   }
 }
-CreatePost.propTypes = {
+AddArticle.propTypes = {
   profile: propTypes.object.isRequired,
   errors: propTypes.object.isRequired
 };
@@ -123,4 +140,7 @@ const mapToStateProps = state => ({
   profile: state.profile,
   errors: state.errors
 });
-export default connect(mapToStateProps)(CreatePost);
+export default connect(
+  mapToStateProps,
+  { addArticle }
+)(withRouter(AddArticle));

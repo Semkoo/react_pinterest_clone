@@ -13,7 +13,7 @@ import PrivateRoute from "./Components/Common/PrivateRoute";
 
 import { Navbar, Landing } from "./Components/Layouts/";
 import { Login, Register, SocialAccess } from "./Components/Auth/";
-import { Dashboard, CreatePost } from "./Components/Dashboard";
+import { Dashboard, AddArticle } from "./Components/Dashboard";
 
 import "./App.css";
 import store from "./store";
@@ -60,7 +60,7 @@ class App extends Component {
               />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute exact path="/create-post" component={CreatePost} />
+                <PrivateRoute exact path="/add-article" component={AddArticle} />
               </Switch>
             </div>
           </div>

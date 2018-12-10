@@ -1,4 +1,4 @@
 import Dashboard from "./Dashboard";
-import CreatePost from "./CreatePost/CreatePost";
+import AddArticle from "./AddArticle/AddArticle";
 
-export { Dashboard, CreatePost };
+export { Dashboard, AddArticle };
