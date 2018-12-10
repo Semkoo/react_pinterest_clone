@@ -4,12 +4,17 @@ import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./Utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./Actions/authActions";
+import { clearCurrentProfile } from "./Actions/profileActions";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import { Navbar, Landing, Footer } from "./Components/Layouts/";
+import PrivateRoute from "./Components/Common/PrivateRoute";
+
+import { Navbar, Landing } from "./Components/Layouts/";
 import { Login, Register, SocialAccess } from "./Components/Auth/";
+import { Dashboard, CreatePost } from "./Components/Dashboard";
+
 import "./App.css";
 import store from "./store";
 
@@ -26,6 +31,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     //Logout user
+    store.dispatch(clearCurrentProfile());
     store.dispatch(logoutUser());
     //Clear current profile
     //TODO ::
@@ -52,9 +58,11 @@ class App extends Component {
                 path="/SocialAccess/:token"
                 component={SocialAccess}
               />
+              <Switch>
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/create-post" component={CreatePost} />
+              </Switch>
             </div>
-
-            <Footer />
           </div>
         </Router>
       </Provider>

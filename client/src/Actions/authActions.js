@@ -38,12 +38,14 @@ export const verifyToken = (tokenData, history) => dispatch => {
       }
     })
     .then(response => {
+      // delete axios.defaults.headers.common["Authorization"];
+      const resetToken = "Bearer " +tokenData ;
       // Set to localStorage
-      localStorage.setItem("jwtToken", tokenData);
+      localStorage.setItem("jwtToken", resetToken);
       // Set to axion auth header
-      setAuthToken(tokenData);
+      setAuthToken(resetToken);
       //Decode token to get user data
-      const decode = jwt_decode(tokenData);
+      const decode = jwt_decode(resetToken);
       //Set current user
       dispatch(setCurrentUser(decode));
     })
