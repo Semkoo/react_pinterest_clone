@@ -36,7 +36,6 @@ router.get("/posts", (req, res, next) => {
   // { "posts.display": { $all: ["public"] } }
   // 'Friends.id': req.body.id
   User.find()
-    .pretty()
     // .selectAll({ posts: { { display: "public" } } })
     .then(data => {
       // console.log(data);
@@ -85,8 +84,8 @@ router.get("/posts", (req, res, next) => {
  */
 router.get("/", requireAuth, (req, res, next) => {
   User.findOne({
-    _id: req.user._id
-  })
+      _id: req.user._id
+    })
     .then(profile => {
       if (!profile) {
         // errors.no_profile = "There is no profile for this user"
@@ -122,8 +121,8 @@ router.post("/post", requireAuth, (req, res, next) => {
   console.log(postFields);
   //Find the db person
   User.findOne({
-    _id: req.user._id
-  })
+      _id: req.user._id
+    })
     .then(profile => {
       //   if (profile) {
 
@@ -158,8 +157,8 @@ router.post("/post/:id", requireAuth, (req, res, next) => {
  */
 router.delete("/post/:id", requireAuth, (req, res, next) => {
   User.findOne({
-    _id: req.user._id
-  })
+      _id: req.user._id
+    })
     .then(profile => {
       // Get remove index
       const removeIndex = profile.posts
