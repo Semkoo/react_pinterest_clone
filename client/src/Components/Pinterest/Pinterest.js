@@ -18,14 +18,7 @@ class Pinterest extends Component {
   }
 
   render() {
-    // console.log(this.props);
     const { pinterest, loading } = this.props.profile;
-    // console.log(pinterest);
-    // if (pinterest.length > 0) {
-    //   let test = pinterest.map(value => {
-    //     console.log(value);
-    //   });
-    // }
     let pinterestItems;
 
     if (pinterest === null || loading) {
@@ -36,12 +29,14 @@ class Pinterest extends Component {
         //   console.log(value);
         // });
         pinterestItems = pinterest.map(value => (
-          <PinterestItem key={value._id} pinterestItem={value} />
+          <PinterestItem key={value._id} Post={value} />
         ));
         // pinterestItems = <h1>Hello</h1>;
         // <PinterestItem pinterestItem={pinterest} />;
       } else {
-        pinterestItems = <h4>No Pinterest Post were found...</h4>;
+        pinterestItems = (
+          <h4 className="text-center">No Pinterest Post were found...</h4>
+        );
       }
     }
 
@@ -49,7 +44,7 @@ class Pinterest extends Component {
       <div className="pinterest">
         <div className="container">
           <div className="row">
-            <div>{pinterestItems}</div>
+            <div className="card-columns">{pinterestItems}</div>
           </div>
         </div>
       </div>
