@@ -6,6 +6,7 @@ import { getPinterest } from "../../Actions/profileActions";
 
 import PinterestItem from "./PinterestItem";
 
+import "./Pinterest.css";
 class Pinterest extends Component {
   //   constructor() {
   //     super();
@@ -19,18 +20,25 @@ class Pinterest extends Component {
   render() {
     // console.log(this.props);
     const { pinterest, loading } = this.props.profile;
+    // console.log(pinterest);
+    // if (pinterest.length > 0) {
+    //   let test = pinterest.map(value => {
+    //     console.log(value);
+    //   });
+    // }
     let pinterestItems;
 
     if (pinterest === null || loading) {
       pinterestItems = <Spinner />;
     } else {
       if (pinterest.length > 0) {
-        pinterestItems = pinterest.map(itemValue => {
-          itemValue.map(value => (
-            <PinterestItem key={value._id} pinterestItem={value} />
-          ));
-        });
-
+        // let test = pinterest.map(value => {
+        //   console.log(value);
+        // });
+        pinterestItems = pinterest.map(value => (
+          <PinterestItem key={value._id} pinterestItem={value} />
+        ));
+        // pinterestItems = <h1>Hello</h1>;
         // <PinterestItem pinterestItem={pinterest} />;
       } else {
         pinterestItems = <h4>No Pinterest Post were found...</h4>;
@@ -39,7 +47,7 @@ class Pinterest extends Component {
 
     return (
       <div className="pinterest">
-        <div className="conainter">
+        <div className="container">
           <div className="row">
             <div>{pinterestItems}</div>
           </div>
