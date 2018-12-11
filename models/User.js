@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const isEmpty = require("../services/is-empty");
 
+var random = require("mongoose-simple-random");
+
 //Create Schema
 const UserSchema = new Schema({
   //THESE ARE FILEDS (LIKE COLUMNS IN MySQL)
@@ -57,5 +59,14 @@ const UserSchema = new Schema({
     }
   ]
 });
+
+UserSchema.plugin(random);
+
+// // Find "limit" random documents (defaults to array of 1)
+// User.findRandom({}, {}, {limit: 5}, function(err, results) {
+//   if (!err) {
+//     console.log(results); // 5 elements
+//   }
+// });
 
 module.exports = User = mongoose.model("users", UserSchema);
