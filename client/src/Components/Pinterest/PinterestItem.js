@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import propType from "prop-types";
-import { Link } from "react-router-dom";
-import isEmpty from "../../Validation/is-empty";
 
 class PinterestItem extends Component {
   render() {

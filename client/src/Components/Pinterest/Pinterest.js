@@ -12,12 +12,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./Pinterest.css";
 
-const style = {
-  height: 30,
-  border: "1px solid green",
-  margin: 6,
-  padding: 8
-};
 class Pinterest extends Component {
   constructor() {
     super();
@@ -37,33 +31,49 @@ class Pinterest extends Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log(nextProps.profile.pinterest);
-    console.log("Here");
+
     if (nextProps.profile.pinterest) {
       // let copy = Object.assign(nextProps.profile.pinterest, this.state.list[]);
-
+      // console.log("Here");
+      // console.log(typeof nextProps.profile.pinterest);
+      // console.log(typeof this.props.list);
+      // this.setState(prevState => ({
+      //   // console.log(typeof prevState.list);
+      //   list: { ...prevState.list, ...nextProps.profile.pinterest }
+      // }));
+      // nextProps.profile.pinterest.map(value => {
+      //   // console.log(value);
+      //   this.setState({
+      //     // console.log(typeof prevState.list);
+      //     list: [...this.state.list, ...[value]]
+      //   });
+      // });
+      let copy = [];
+      for (var key in nextProps.profile.pinterest) {
+        copy.push(nextProps.profile.pinterest[key]);
+      }
       this.setState({
-        list: this.state.list.concat(Array.from({ length: 2 }))
+        list: this.state.list.concat(copy)
       });
+      // this.setState({
+      //   list: this.state.list.concat(Array.from({ length: 2 }))
+      // });
     }
   }
 
   fetchMoreData = () => {
     // a fake async api call like which sends
-    // 20 more records in 1.5 secs
+    // 20 more records in .5 secs
     setTimeout(() => {
       this.props.getPinterest();
 
       // this.setState({
       //   list: this.state.list.concat(this.props.profile.pinterest)
       // });
-    }, 1500);
+    }, 500);
   };
   render() {
     const { pinterest, loading } = this.props.profile;
-    // let arrayList = [];
-
-    // arrayList.concat(pinterest);
-    console.log(this.state.list);
     let pinterestItems;
     console.log(isEmpty(this.state.list));
     if (pinterest === null && isEmpty(this.state.list)) {
@@ -78,13 +88,9 @@ class Pinterest extends Component {
           <InfiniteScroll
             dataLength={this.state.list.length}
             next={this.fetchMoreData}
-            hasMore={true}
-            height={100}
-            loader={<Spinner />}>
+            hasMore={true}>
             {this.state.list.map((value, index) => (
-              <div style={style} key={index}>
-                div -{value} #{index}
-              </div>
+              <PinterestItem key={index} Post={value} />
             ))}
           </InfiniteScroll>
         );
@@ -98,9 +104,8 @@ class Pinterest extends Component {
     return (
       <div className="pinterest">
         <div className="container">
-          {pinterestItems}
           <div className="row">
-            <div className="card-columns" />
+            <div className="card-columns">{pinterestItems}</div>
           </div>
         </div>
       </div>

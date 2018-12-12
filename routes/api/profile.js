@@ -18,6 +18,27 @@ const requireAuth = passport.authenticate("jwt", {
 //Load Users Profile
 const User = require("../../models/User");
 
+//Shufle
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 /**
  * @route GET api/profile/test
  * @desc Test post route
@@ -33,20 +54,21 @@ router.get("/test", (req, res, next) => {
  * @access Public
  */
 router.get("/posts", (req, res, next) => {
-  // User.count()
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
+  var count = 5;
+  User.count()
+    .then(res => {
+      count = res;
+    })
+    .catch(err => {
+      console.log(err);
+    });
   // Get a random entry
-  var random = Math.floor(Math.random() * 8);
+  var random = Math.floor(Math.random() * count);
   //fetch one offset by our random #
-  User.findRandom(
+  User.find(
     { "posts.display": "public" },
     { posts: 1 },
-    { count: 8 },
+    { count: random },
     function(err, results) {
       if (err) {
         console.error(err);
@@ -62,12 +84,12 @@ router.get("/posts", (req, res, next) => {
             }
           }
         }
-        // console.log(articles[0].display);
+        // console.log(typeof articles);
         if (!articles) {
           res.status(404).json({ no_posts: "there are no posts" });
         }
-        res.status(200).json(articles);
-        console.log(results);
+        res.status(200).json(shuffle(articles));
+        // console.log(results);
       }
     }
   );
