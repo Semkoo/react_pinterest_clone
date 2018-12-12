@@ -22,32 +22,9 @@ class Pinterest extends Component {
 
   componentDidMount() {
     this.props.getPinterest();
-    // console.log(this.props.profile);
-    // if (this.props.profile.pinterest) {
-    //   this.setState({
-    //     list: this.state.list.concat(this.props.profile.pinterest)
-    //   });
-    // }
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.profile.pinterest);
-
     if (nextProps.profile.pinterest) {
-      // let copy = Object.assign(nextProps.profile.pinterest, this.state.list[]);
-      // console.log("Here");
-      // console.log(typeof nextProps.profile.pinterest);
-      // console.log(typeof this.props.list);
-      // this.setState(prevState => ({
-      //   // console.log(typeof prevState.list);
-      //   list: { ...prevState.list, ...nextProps.profile.pinterest }
-      // }));
-      // nextProps.profile.pinterest.map(value => {
-      //   // console.log(value);
-      //   this.setState({
-      //     // console.log(typeof prevState.list);
-      //     list: [...this.state.list, ...[value]]
-      //   });
-      // });
       let copy = [];
       for (var key in nextProps.profile.pinterest) {
         copy.push(nextProps.profile.pinterest[key]);
@@ -55,22 +32,13 @@ class Pinterest extends Component {
       this.setState({
         list: this.state.list.concat(copy)
       });
-      // this.setState({
-      //   list: this.state.list.concat(Array.from({ length: 2 }))
-      // });
     }
   }
 
   fetchMoreData = () => {
-    // a fake async api call like which sends
-    // 20 more records in .5 secs
-    setTimeout(() => {
-      this.props.getPinterest();
-
-      // this.setState({
-      //   list: this.state.list.concat(this.props.profile.pinterest)
-      // });
-    }, 500);
+    // setTimeout(() => {
+    this.props.getPinterest();
+    // }, 500);
   };
   render() {
     const { pinterest, loading } = this.props.profile;
@@ -90,7 +58,7 @@ class Pinterest extends Component {
             next={this.fetchMoreData}
             hasMore={true}>
             {this.state.list.map((value, index) => (
-              <PinterestItem key={index} Post={value} />
+              <PinterestItem key={index} Post={value} Auth={{isAuthorized:false}} />
             ))}
           </InfiniteScroll>
         );

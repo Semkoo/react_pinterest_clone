@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import propType from "prop-types";
-import { Link, withRouter } from "react-router-dom";
+  import { Link, withRouter } from "react-router-dom";
 
 class Articles extends Component {
   render() {

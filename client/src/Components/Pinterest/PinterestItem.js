@@ -1,26 +1,45 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+
 
 class PinterestItem extends Component {
   render() {
     const { Post } = this.props;
-    // console.log(Post);
+    const { isAuthenticated, user } = this.props.Auth;
+
+    const logedDisplay = (
+      <div className="overlay">
+        <h3 className="card-title title">{Post.title}</h3>
+        <div className="delete">
+          <a download>
+            <i className="fas fa-trash-alt" aria-hidden="true" /> Delete
+          </a>
+        </div>
+        <div className="more">
+          <Link to={`/post/${Post._id}`}>
+            <i className="fas fa-share" aria-hidden="true" /> Share
+          </Link>
+        </div>
+      </div>
+    );
+
+    const guestDisplay = (
+      <div className="overlay">
+        <h3 className="card-title title">{Post.title}</h3>
+        <div className="more">
+          <Link to={`/post/${Post._id}`}>
+            <i className="fas fa-arrow-circle-right" aria-hidden="true" />
+            More Info
+          </Link>
+        </div>
+      </div>
+    );
+
     return (
       <div className="card card-pin">
         <img className="card-img" src={Post.href_link} alt="Card image" />
-        <div className="overlay">
-          <h3 className="card-title title">{Post.title}</h3>
-          {/* <div className="download">
-              <a href="http://lorempixel.com/486/320/" download>
-                <i className="fa fa-download" aria-hidden="true" />
-              </a>
-            </div> */}
-          <div className="more">
-            <a href="#!">
-              <i className="fa fa-arrow-circle-o-right" aria-hidden="true" />{" "}
-              More Info
-            </a>
-          </div>
-        </div>
+        {isAuthenticated ? logedDisplay : guestDisplay}
       </div>
     );
   }

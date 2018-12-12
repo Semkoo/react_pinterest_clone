@@ -5,7 +5,8 @@ import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../Actions/profileActions";
 
-import Articles from "./Articles";
+import "../Pinterest/Pinterest.css";
+import PinterestItem from "../Pinterest/PinterestItem";
 
 import Spinner from "../Common/Spinner";
 
@@ -19,7 +20,7 @@ class Dashboard extends Component {
     const { user } = this.props.auth;
     // console.log(this.props.profile);
     const { profile, loading } = this.props.profile;
-    console.log(profile);
+    const { auth } = this.props.auth;
     let dashboardContent;
 
     if (profile === null || loading === true) {
@@ -30,7 +31,26 @@ class Dashboard extends Component {
           <p className="lead text-muted"> Welcome {user.name}</p>
           {/* <!-- Dashboard Actions --> */}
           <hr />
-          <Articles Posts={profile.posts} />
+          <div className="btn-group mb-4" role="group">
+            <Link to="/add-article" className="btn btn-light">
+              <i className="fas fa-passport text-info mr-1" />
+              Add Image
+            </Link>
+          </div>
+
+          <div className="container">
+            <div className="row">
+              <div className="card-columns">
+                {profile.posts.map(value => (
+                  <PinterestItem
+                    key={value._id}
+                    Post={value}
+                    Auth={this.props.auth}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       );
     }
