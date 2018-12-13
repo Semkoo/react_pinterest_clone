@@ -54,7 +54,6 @@ export const addArticle = (articleData, history) => dispatch => {
   axios
     .post("/api/profile/post/", articleData)
     .then(res => {
-      console.log(res);
       history.push("/dashboard");
     })
     .catch(err => {
@@ -66,6 +65,26 @@ export const addArticle = (articleData, history) => dispatch => {
     });
 };
 
+//Post new articles
+export const deleteItem = (id, history) => dispatch => {
+  // Post this to link in profile
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    axios
+      .delete(`/api/profile/post/${id}`)
+      .then(res =>
+        dispatch({
+          type: GET_PROFILE,
+          payload: res.data
+        })
+      )
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
+};
 //Profile Loading
 export const setProfileLoading = () => {
   return {

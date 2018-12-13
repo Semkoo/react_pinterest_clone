@@ -186,7 +186,7 @@ router.post("/post", requireAuth, (req, res, next) => {
  * @desc Update post with the id
  * @access Private
  */
-router.post("/post/:id", requireAuth, (req, res, next) => {
+router.put("/post/:id", requireAuth, (req, res, next) => {
   //TODO
 });
 /**
