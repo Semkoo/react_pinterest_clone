@@ -117,6 +117,29 @@ router.get("/posts", (req, res, next) => {
 });
 
 /**
+ * @route GET api/profile/post/:id
+ * @desc GET info about the post and the rest about the user
+ * @access Public
+ */
+router.get("/post/:id", (req, res, next) => {
+  User.findOne({ "posts._id": req.params.id }, { posts: 1, name: 1, avatar: 1 })
+    .then(profile => {
+      if (!profile) {
+        // errors.no_profile = "There is no profile for this user"
+        res
+          .status(404)
+          .json({ no_profile: "There is no profile for this user" });
+      } else {
+        res.status(200).json(profile);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(404).json(error);
+    });
+});
+
+/**
  * @route GET api/profile/
  * @desc GET current users profie
  * @access Private

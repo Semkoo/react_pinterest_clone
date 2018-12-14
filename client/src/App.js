@@ -14,6 +14,7 @@ import PrivateRoute from "./Components/Common/PrivateRoute";
 import { Navbar, Landing } from "./Components/Layouts/";
 import { Login, Register, SocialAccess } from "./Components/Auth/";
 import { Dashboard, AddArticle } from "./Components/Dashboard";
+import { PinterestProfile } from "./Components/Pinterest";
 
 import "./App.css";
 import store from "./store";
@@ -58,9 +59,14 @@ class App extends Component {
                 path="/SocialAccess/:token"
                 component={SocialAccess}
               />
+              <Route exact path="/post/:postID" component={PinterestProfile} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute exact path="/add-article" component={AddArticle} />
+                <PrivateRoute
+                  exact
+                  path="/add-article"
+                  component={AddArticle}
+                />
               </Switch>
             </div>
           </div>
