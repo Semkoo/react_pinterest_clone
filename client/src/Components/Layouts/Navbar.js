@@ -54,10 +54,10 @@ class Navbar extends Component {
       </ul>
     );
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+      <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Pinterest Clone
+            Reacterest
           </Link>
           <button
             className="navbar-toggler"
