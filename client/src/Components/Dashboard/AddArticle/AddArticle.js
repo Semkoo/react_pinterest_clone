@@ -52,7 +52,7 @@ class AddArticle extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    // const { errors } = this.state;
     // console.log(errors);
     //Select Options for post status
     const options = [

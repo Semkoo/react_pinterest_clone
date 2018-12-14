@@ -41,9 +41,9 @@ class Pinterest extends Component {
     // }, 500);
   };
   render() {
-    const { pinterest, loading } = this.props.profile;
+    const { pinterest } = this.props.profile;
     let pinterestItems;
-    console.log(isEmpty(this.state.list));
+    // console.log(isEmpty(this.state.list));
     if (pinterest === null && isEmpty(this.state.list)) {
       pinterestItems = (
         <div style={{ float: "center" }}>
@@ -58,7 +58,11 @@ class Pinterest extends Component {
             next={this.fetchMoreData}
             hasMore={true}>
             {this.state.list.map((value, index) => (
-              <PinterestItem key={index} Post={value} Auth={{isAuthorized:false}} />
+              <PinterestItem
+                key={index}
+                Post={value}
+                Auth={{ isAuthorized: false }}
+              />
             ))}
           </InfiniteScroll>
         );

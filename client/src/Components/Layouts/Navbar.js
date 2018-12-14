@@ -30,7 +30,7 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item">
-          <a href="" className="nav-link" onClick={this.onLogoutCick}>
+          <a className="nav-link" onClick={this.onLogoutCick}>
             <span style={{ fontSize: "16px" }}>
               <i className="fas fa-sign-out-alt " />
             </span>

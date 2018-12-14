@@ -13,4 +13,14 @@ class PinterestProfile extends Component {
     );
   }
 }
-export default connect()(withRouter(PinterestProfile);
+
+Profile.propTypes = {
+  profile: propTypes.object.isRequired
+}
+
+
+const mapToStateToProps = state =>{
+  profile:state.profile 
+}
+
+export default connect(mapToStateToProps)(withRouter(PinterestProfile);

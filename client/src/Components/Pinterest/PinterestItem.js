@@ -3,7 +3,6 @@ import { Link, withRouter } from "react-router-dom";
 import propType from "prop-types";
 import { connect } from "react-redux";
 import { deleteItem } from "../../Actions/profileActions";
-import { format } from "util";
 
 class PinterestItem extends Component {
   onDeleteClick(id) {
@@ -12,7 +11,7 @@ class PinterestItem extends Component {
 
   render() {
     const { Post } = this.props;
-    const { isAuthenticated, user } = this.props.Auth;
+    const { isAuthenticated } = this.props.Auth;
 
     const logedDisplay = (
       <div className="overlay">
@@ -46,7 +45,7 @@ class PinterestItem extends Component {
 
     return (
       <div className="card card-pin">
-        <img className="card-img" src={Post.href_link} alt="Card image" />
+        <img className="card-img" src={Post.href_link} alt={Post.handle} />
         {isAuthenticated ? logedDisplay : guestDisplay}
       </div>
     );
