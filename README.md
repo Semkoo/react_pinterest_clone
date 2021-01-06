@@ -1,4 +1,4 @@
-# react_pinterest_clone
+# react_pinterest_clone is deprecated 
 
 
 This project was an experiment for me to understand how React.js work along with the notorious infinite scroll to fetch new data...
